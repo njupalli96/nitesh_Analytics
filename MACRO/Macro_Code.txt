@@ -1,0 +1,803 @@
+Sub sbCopyRangeToAnotherSheet()
+ 
+'Filling Summary
+Dim myFile As String, text As String, textline As String, posLat As Integer, posLong As Integer
+myFile = "C:\Users\HP\OneDrive\Desktop\MF_Analysis_InputSheet.txt"
+Open myFile For Input As #1
+Do Until EOF(1)
+    Line Input #1, textline
+    text = text & textline
+Loop
+Close #1
+
+Dim WorkbookName As String
+Dim T_WorkbookName As String
+Dim Summary As String
+Dim Corporates_Investor_Type As String
+Dim Banks_Investor_Type As String
+Dim FIIs_Investor_type As String
+Dim HNIs_Investor_Type As String
+Dim Retail_Investor_Type As String
+Dim H_T_HNI_GEO As String
+Dim H_B_HNI_GEO As String
+Dim H_Through_Direct_Plan As String
+Dim H_Through_Associate_Distributors As String
+Dim H_Through_Non_Associate_Distributors As String
+Dim H_Liquid_MM As String
+Dim H_Gilt As String
+Dim H_OtherDebtSecurities As String
+Dim H_ELSS As String
+Dim H_BalancedScheme As String
+Dim H_GoldETF As String
+Dim H_OtherETFs As String
+Dim H_FundOfFund As String
+Dim H_Equity_Others As String
+Dim H_FMP As String
+Dim H_Debt As String
+
+Dim R_T_RET_GEO As String
+Dim R_B_RET_GEO As String
+Dim R_Through_Direct_Plan As String
+Dim R_Through_Associate_Distributors As String
+Dim R_Through_Non_Associate_Distributors As String
+Dim R_Liquid_MM As String
+Dim R_Gilt As String
+Dim R_OtherDebtSecurities As String
+Dim R_ELSS As String
+Dim R_BalancedScheme As String
+Dim R_GoldETF As String
+Dim R_OtherETFs As String
+Dim R_FundOfFund As String
+Dim R_Equity_Others As String
+Dim R_FMP As String
+Dim R_Debt As String
+
+Dim C_T_COR_GEO As String
+Dim C_B_COR_GEO As String
+Dim C_Through_Direct_Plan As String
+Dim C_Through_Associate_Distributors As String
+Dim C_Through_Non_Associate_Distributors As String
+Dim C_Liquid_MM As String
+Dim C_Gilt As String
+Dim C_OtherDebtSecurities As String
+Dim C_ELSS As String
+Dim C_BalancedScheme As String
+Dim C_GoldETF As String
+Dim C_OtherETFs As String
+Dim C_FundOfFund As String
+Dim C_Equity_Others As String
+Dim C_FMP As String
+Dim C_Debt As String
+ 
+Dim pos As Double
+Dim pos2 As Double
+ 
+pos = InStr(text, "<WorkbookName>")
+pos2 = InStr(text, "</WorkbookName>")
+WorkbookName = Mid(text, pos + Len("<WorkbookName>"), pos2 - (pos + Len("<WorkbookName>")))
+
+pos = InStr(text, "<T_WorkbookName>")
+pos2 = InStr(text, "</T_WorkbookName>")
+T_WorkbookName = Mid(text, pos + Len("<T_WorkbookName>"), pos2 - (pos + Len("<T_WorkbookName>")))
+ 
+pos = InStr(text, "<Summary>")
+pos2 = InStr(text, "</Summary>")
+Summary = Mid(text, pos + Len("<Summary>"), pos2 - (pos + Len("<Summary>")))
+ 
+pos = InStr(text, "<Corporates_Investor_Type>")
+pos2 = InStr(text, "</Corporates_Investor_Type>")
+Corporates_Investor_Type = Mid(text, pos + Len("<Corporates_Investor_Type>"), pos2 - (pos + Len("<Corporates_Investor_Type>")))
+ 
+pos = InStr(text, "<Banks_Investor_Type>")
+pos2 = InStr(text, "</Banks_Investor_Type>")
+Banks_Investor_Type = Mid(text, pos + Len("<Banks_Investor_Type>"), pos2 - (pos + Len("<Banks_Investor_Type>")))
+ 
+pos = InStr(text, "<FIIs_Investor_Type>")
+pos2 = InStr(text, "</FIIs_Investor_Type>")
+FIIs_Investor_type = Mid(text, pos + Len("<FIIs_Investor_Type>"), pos2 - (pos + Len("<FIIs_Investor_Type>")))
+ 
+pos = InStr(text, "<HNIs_Investor_Type>")
+pos2 = InStr(text, "</HNIs_Investor_Type>")
+HNIs_Investor_Type = Mid(text, pos + Len("<HNIs_Investor_Type>"), pos2 - (pos + Len("<HNIs_Investor_Type>")))
+ 
+pos = InStr(text, "<Retail_Investor_Type>")
+pos2 = InStr(text, "</Retail_Investor_Type>")
+Retail_Investor_Type = Mid(text, pos + Len("<Retail_Investor_Type>"), pos2 - (pos + Len("<Retail_Investor_Type>")))
+ 
+pos = InStr(text, "<H_T_HNI_GEO>")
+pos2 = InStr(text, "</H_T_HNI_GEO>")
+H_T_HNI_GEO = Mid(text, pos + Len("<H_T_HNI_GEO>"), pos2 - (pos + Len("<H_T_HNI_GEO>")))
+ 
+pos = InStr(text, "<H_B_HNI_GEO>")
+pos2 = InStr(text, "</H_B_HNI_GEO>")
+H_B_HNI_GEO = Mid(text, pos + Len("<H_B_HNI_GEO>"), pos2 - (pos + Len("<H_B_HNI_GEO>")))
+ 
+pos = InStr(text, "<H_Through_Direct_Plan>")
+pos2 = InStr(text, "</H_Through_Direct_Plan>")
+H_Through_Direct_Plan = Mid(text, pos + Len("<H_Through_Direct_Plan>"), pos2 - (pos + Len("<H_Through_Direct_Plan>")))
+ 
+pos = InStr(text, "<H_Through_Associate_Distributors>")
+pos2 = InStr(text, "</H_Through_Associate_Distributors>")
+H_Through_Associate_Distributors = Mid(text, pos + Len("<H_Through_Associate_Distributors>"), pos2 - (pos + Len("<H_Through_Associate_Distributors>")))
+ 
+pos = InStr(text, "<H_Through_Non_Associate_Distributors>")
+pos2 = InStr(text, "</H_Through_Non_Associate_Distributors>")
+H_Through_Non_Associate_Distributors = Mid(text, pos + Len("<H_Through_Non_Associate_Distributors>"), pos2 - (pos + Len("<H_Through_Non_Associate_Distributors>")))
+ 
+pos = InStr(text, "<H_Liquid_MM>")
+pos2 = InStr(text, "</H_Liquid_MM>")
+H_Liquid_MM = Mid(text, pos + Len("<H_Liquid_MM>"), pos2 - (pos + Len("<H_Liquid_MM>")))
+ 
+pos = InStr(text, "<H_Gilt>")
+pos2 = InStr(text, "</H_Gilt>")
+H_Gilt = Mid(text, pos + Len("<H_Gilt>"), pos2 - (pos + Len("<H_Gilt>")))
+ 
+pos = InStr(text, "<H_OtherDebtSecurities>")
+pos2 = InStr(text, "</H_OtherDebtSecurities>")
+H_OtherDebtSecurities = Mid(text, pos + Len("<H_OtherDebtSecurities>"), pos2 - (pos + Len("<H_OtherDebtSecurities>")))
+ 
+pos = InStr(text, "<H_ELSS>")
+pos2 = InStr(text, "</H_ELSS>")
+H_ELSS = Mid(text, pos + Len("<H_ELSS>"), pos2 - (pos + Len("<H_ELSS>")))
+ 
+pos = InStr(text, "<H_BalancedScheme>")
+pos2 = InStr(text, "</H_BalancedScheme>")
+H_BalancedScheme = Mid(text, pos + Len("<H_BalancedScheme>"), pos2 - (pos + Len("<H_BalancedScheme>")))
+ 
+pos = InStr(text, "<H_GoldETF>")
+pos2 = InStr(text, "</H_GoldETF>")
+H_GoldETF = Mid(text, pos + Len("<H_GoldETF>"), pos2 - (pos + Len("<H_GoldETF>")))
+ 
+pos = InStr(text, "<H_OtherETFs>")
+pos2 = InStr(text, "</H_OtherETFs>")
+H_OtherETFs = Mid(text, pos + Len("<H_OtherETFs>"), pos2 - (pos + Len("<H_OtherETFs>")))
+ 
+pos = InStr(text, "<H_FundOfFund>")
+pos2 = InStr(text, "</H_FundOfFund>")
+H_FundOfFund = Mid(text, pos + Len("<H_FundOfFund>"), pos2 - (pos + Len("<H_FundOfFund>")))
+ 
+pos = InStr(text, "<H_Equity_Others>")
+pos2 = InStr(text, "</H_Equity_Others>")
+H_Equity_Others = Mid(text, pos + Len("<H_Equity_Others>"), pos2 - (pos + Len("<H_Equity_Others>")))
+ 
+pos = InStr(text, "<H_FMP>")
+pos2 = InStr(text, "</H_FMP>")
+H_FMP = Mid(text, pos + Len("<H_FMP>"), pos2 - (pos + Len("<H_FMP>")))
+ 
+pos = InStr(text, "<R_T_RET_GEO>")
+pos2 = InStr(text, "</R_T_RET_GEO>")
+R_T_RET_GEO = Mid(text, pos + Len("<R_T_RET_GEO>"), pos2 - (pos + Len("<R_T_RET_GEO>")))
+ 
+pos = InStr(text, "<R_B_RET_GEO>")
+pos2 = InStr(text, "</R_B_RET_GEO>")
+R_B_RET_GEO = Mid(text, pos + Len("<R_B_RET_GEO>"), pos2 - (pos + Len("<R_B_RET_GEO>")))
+ 
+pos = InStr(text, "<R_Through_Direct_Plan>")
+pos2 = InStr(text, "</R_Through_Direct_Plan>")
+R_Through_Direct_Plan = Mid(text, pos + Len("<R_Through_Direct_Plan>"), pos2 - (pos + Len("<R_Through_Direct_Plan>")))
+ 
+pos = InStr(text, "<R_Through_Associate_Distributors>")
+pos2 = InStr(text, "</R_Through_Associate_Distributors>")
+R_Through_Associate_Distributors = Mid(text, pos + Len("<R_Through_Associate_Distributors>"), pos2 - (pos + Len("<R_Through_Associate_Distributors>")))
+ 
+pos = InStr(text, "<R_Through_Non_Associate_Distributors>")
+pos2 = InStr(text, "</R_Through_Non_Associate_Distributors>")
+R_Through_Non_Associate_Distributors = Mid(text, pos + Len("<R_Through_Non_Associate_Distributors>"), pos2 - (pos + Len("<R_Through_Non_Associate_Distributors>")))
+ 
+pos = InStr(text, "<R_Liquid_MM>")
+pos2 = InStr(text, "</R_Liquid_MM>")
+R_Liquid_MM = Mid(text, pos + Len("<R_Liquid_MM>"), pos2 - (pos + Len("<R_Liquid_MM>")))
+ 
+pos = InStr(text, "<R_Gilt>")
+pos2 = InStr(text, "</R_Gilt>")
+R_Gilt = Mid(text, pos + Len("<R_Gilt>"), pos2 - (pos + Len("<R_Gilt>")))
+ 
+pos = InStr(text, "<R_OtherDebtSecurities>")
+pos2 = InStr(text, "</R_OtherDebtSecurities>")
+R_OtherDebtSecurities = Mid(text, pos + Len("<R_OtherDebtSecurities>"), pos2 - (pos + Len("<R_OtherDebtSecurities>")))
+ 
+pos = InStr(text, "<R_ELSS>")
+pos2 = InStr(text, "</R_ELSS>")
+R_ELSS = Mid(text, pos + Len("<R_ELSS>"), pos2 - (pos + Len("<R_ELSS>")))
+ 
+pos = InStr(text, "<R_BalancedScheme>")
+pos2 = InStr(text, "</R_BalancedScheme>")
+R_BalancedScheme = Mid(text, pos + Len("<R_BalancedScheme>"), pos2 - (pos + Len("<R_BalancedScheme>")))
+ 
+pos = InStr(text, "<R_GoldETF>")
+pos2 = InStr(text, "</R_GoldETF>")
+R_GoldETF = Mid(text, pos + Len("<R_GoldETF>"), pos2 - (pos + Len("<R_GoldETF>")))
+ 
+pos = InStr(text, "<R_OtherETFs>")
+pos2 = InStr(text, "</R_OtherETFs>")
+R_OtherETFs = Mid(text, pos + Len("<R_OtherETFs>"), pos2 - (pos + Len("<R_OtherETFs>")))
+ 
+pos = InStr(text, "<R_FundOfFund>")
+pos2 = InStr(text, "</R_FundOfFund>")
+R_FundOfFund = Mid(text, pos + Len("<R_FundOfFund>"), pos2 - (pos + Len("<R_FundOfFund>")))
+ 
+pos = InStr(text, "<R_Equity_Others>")
+pos2 = InStr(text, "</R_Equity_Others>")
+R_Equity_Others = Mid(text, pos + Len("<R_Equity_Others>"), pos2 - (pos + Len("<R_Equity_Others>")))
+ 
+pos = InStr(text, "<R_FMP>")
+pos2 = InStr(text, "</R_FMP>")
+R_FMP = Mid(text, pos + Len("<R_FMP>"), pos2 - (pos + Len("<R_FMP>")))
+ 
+
+pos = InStr(text, "<C_T_COR_GEO>")
+pos2 = InStr(text, "</C_T_COR_GEO>")
+C_T_COR_GEO = Mid(text, pos + Len("<C_T_COR_GEO>"), pos2 - (pos + Len("<C_T_COR_GEO>")))
+ 
+pos = InStr(text, "<C_B_COR_GEO>")
+pos2 = InStr(text, "</C_B_COR_GEO>")
+C_B_COR_GEO = Mid(text, pos + Len("<C_B_COR_GEO>"), pos2 - (pos + Len("<C_B_COR_GEO>")))
+ 
+pos = InStr(text, "<C_Through_Direct_Plan>")
+pos2 = InStr(text, "</C_Through_Direct_Plan>")
+C_Through_Direct_Plan = Mid(text, pos + Len("<C_Through_Direct_Plan>"), pos2 - (pos + Len("<C_Through_Direct_Plan>")))
+ 
+pos = InStr(text, "<C_Through_Associate_Distributors>")
+pos2 = InStr(text, "</C_Through_Associate_Distributors>")
+C_Through_Associate_Distributors = Mid(text, pos + Len("<C_Through_Associate_Distributors>"), pos2 - (pos + Len("<C_Through_Associate_Distributors>")))
+ 
+pos = InStr(text, "<C_Through_Non_Associate_Distributors>")
+pos2 = InStr(text, "</C_Through_Non_Associate_Distributors>")
+C_Through_Non_Associate_Distributors = Mid(text, pos + Len("<C_Through_Non_Associate_Distributors>"), pos2 - (pos + Len("<C_Through_Non_Associate_Distributors>")))
+ 
+pos = InStr(text, "<C_Liquid_MM>")
+pos2 = InStr(text, "</C_Liquid_MM>")
+C_Liquid_MM = Mid(text, pos + Len("<C_Liquid_MM>"), pos2 - (pos + Len("<C_Liquid_MM>")))
+ 
+pos = InStr(text, "<C_Gilt>")
+pos2 = InStr(text, "</C_Gilt>")
+C_Gilt = Mid(text, pos + Len("<C_Gilt>"), pos2 - (pos + Len("<C_Gilt>")))
+ 
+pos = InStr(text, "<C_OtherDebtSecurities>")
+pos2 = InStr(text, "</C_OtherDebtSecurities>")
+C_OtherDebtSecurities = Mid(text, pos + Len("<C_OtherDebtSecurities>"), pos2 - (pos + Len("<C_OtherDebtSecurities>")))
+ 
+pos = InStr(text, "<C_ELSS>")
+pos2 = InStr(text, "</C_ELSS>")
+C_ELSS = Mid(text, pos + Len("<C_ELSS>"), pos2 - (pos + Len("<C_ELSS>")))
+ 
+pos = InStr(text, "<C_BalancedScheme>")
+pos2 = InStr(text, "</C_BalancedScheme>")
+C_BalancedScheme = Mid(text, pos + Len("<C_BalancedScheme>"), pos2 - (pos + Len("<C_BalancedScheme>")))
+ 
+pos = InStr(text, "<C_GoldETF>")
+pos2 = InStr(text, "</C_GoldETF>")
+C_GoldETF = Mid(text, pos + Len("<C_GoldETF>"), pos2 - (pos + Len("<C_GoldETF>")))
+ 
+pos = InStr(text, "<C_OtherETFs>")
+pos2 = InStr(text, "</C_OtherETFs>")
+C_OtherETFs = Mid(text, pos + Len("<C_OtherETFs>"), pos2 - (pos + Len("<C_OtherETFs>")))
+ 
+pos = InStr(text, "<C_FundOfFund>")
+pos2 = InStr(text, "</C_FundOfFund>")
+C_FundOfFund = Mid(text, pos + Len("<C_FundOfFund>"), pos2 - (pos + Len("<C_FundOfFund>")))
+ 
+pos = InStr(text, "<C_Equity_Others>")
+pos2 = InStr(text, "</C_Equity_Others>")
+C_Equity_Others = Mid(text, pos + Len("<C_Equity_Others>"), pos2 - (pos + Len("<C_Equity_Others>")))
+ 
+pos = InStr(text, "<C_FMP>")
+pos2 = InStr(text, "</C_FMP>")
+C_FMP = Mid(text, pos + Len("<C_FMP>"), pos2 - (pos + Len("<C_FMP>")))
+
+Workbooks(T_WorkbookName).Worksheets("Summary").Range(Summary).Value = Workbooks(WorkbookName).Worksheets(WorkbookName).Range("BK27").Value
+ 
+'Filling invester type
+ 
+'Corporates
+'D27 , I27, N27, S27, X27, AC27, AH27, AM27, AR27, AW27, BB27, BG27
+'banks
+'E27 , J27, O27, T27, Y27, AD27, AI27, AN27, AS27, AX27, BC27, BH27
+'FIIs
+'F27 , K27, P27, U27, Z27, AE27, AJ27, AO27, AT27, AY27, BD27, BI27
+'HNI
+'G27 , L27, Q27, V27, AA27, AF27, AK27, AP27, AU27, AZ27, BE27, BJ27
+'Retail
+'C27 , H27, M27, R27, W27, AB27, AG27, AL27, AQ27, AV27, BA27, BF27
+ 
+Dim c As Double
+Dim b As Double
+Dim f As Double
+Dim h As Double
+Dim r As Double
+ 
+ 
+Workbooks(WorkbookName).Activate
+c = Range("D27").Value + Range("I27").Value + Range("N27").Value + Range("S27").Value + _
+Range("X27").Value + Range("AC27").Value + Range("AH27").Value + Range("AM27").Value + _
+Range("AR27").Value + Range("AW27").Value + Range("BB27").Value + Range("BG27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("Investor Type").Range(Corporates_Investor_Type).Value = c
+ 
+Workbooks(WorkbookName).Activate
+b = Range("E27").Value + Range("J27").Value + Range("O27").Value + Range("T27").Value + _
+Range("Y27").Value + Range("AD27").Value + Range("AI27").Value + Range("AN27").Value + _
+Range("AS27").Value + Range("AX27").Value + Range("BC27").Value + Range("BH27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("Investor Type").Range(Banks_Investor_Type).Value = b
+ 
+Workbooks(WorkbookName).Activate
+f = Range("F27").Value + Range("K27").Value + Range("P27").Value + Range("U27").Value + _
+Range("Z27").Value + Range("AE27").Value + Range("AJ27").Value + Range("AO27").Value + _
+Range("AT27").Value + Range("AY27").Value + Range("BD27").Value + Range("BI27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("Investor Type").Range(FIIs_Investor_type).Value = f
+ 
+Workbooks(WorkbookName).Activate
+h = Range("G27").Value + Range("L27").Value + Range("Q27").Value + Range("V27").Value + _
+Range("AA27").Value + Range("AF27").Value + Range("AK27").Value + Range("AP27").Value + _
+Range("AU27").Value + Range("AZ27").Value + Range("BE27").Value + Range("BJ27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("Investor Type").Range(HNIs_Investor_Type).Value = h
+ 
+Workbooks(WorkbookName).Activate
+r = Range("C27").Value + Range("H27").Value + Range("M27").Value + Range("R27").Value + _
+Range("W27").Value + Range("AB27").Value + Range("AG27").Value + Range("AL27").Value + _
+Range("AQ27").Value + Range("AV27").Value + Range("BA27").Value + Range("BF27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("Investor Type").Range(Retail_Investor_Type).Value = r
+ 
+ 
+''''''HNI START''''''
+'Fill HNI_Geo
+'T30
+Workbooks(WorkbookName).Activate
+Dim GT As Double
+GT = Range("G27").Value + Range("L27").Value + Range("AA27").Value + Range("AF27").Value _
++ Range("AU27").Value + Range("AZ27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("HNI_Geography").Range(H_T_HNI_GEO).Value = GT
+ 
+'B30
+Workbooks(WorkbookName).Activate
+Dim GB As Double
+GB = Range("Q27").Value + Range("V27").Value + Range("AK27").Value _
++ Range("AP27").Value + Range("BE27").Value + Range("BJ27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("HNI_Geography").Range(H_B_HNI_GEO).Value = GB
+ 
+'Fill HNI_Channel
+ 
+'TDP
+Workbooks(WorkbookName).Activate
+Dim tdp As Double
+tdp = Range("G27").Value + Range("L27").Value + Range("Q27").Value _
++ Range("V27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("HNI_Channel").Range(H_Through_Direct_Plan).Value = tdp
+ 
+'TAD
+Workbooks(WorkbookName).Activate
+Dim tap As Double
+tap = Range("AA27").Value + Range("AF27").Value + Range("AK27").Value _
++ Range("AP27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("HNI_Channel").Range(H_Through_Associate_Distributors).Value = tap
+ 
+'TNAD
+Workbooks(WorkbookName).Activate
+Dim tnad As Double
+tnad = Range("AU27").Value + Range("AZ27").Value + Range("BE27").Value _
++ Range("BJ27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("HNI_Channel").Range(H_Through_Non_Associate_Distributors).Value = tnad
+ 
+'Fill HNI_Product
+ 
+'L/MM
+Workbooks(WorkbookName).Activate
+Dim lmm As Double
+lmm = Range("G8").Value + Range("L8").Value + Range("Q8").Value _
++ Range("V8").Value + Range("AA8").Value + Range("AF8").Value _
++ Range("AK8").Value + Range("AP8").Value + Range("AU8").Value _
++ Range("AZ8").Value + Range("BE8").Value+ Range("BJ8").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("HNI_Product").Range(H_Liquid_MM).Value = lmm
+ 
+'Gilt
+Workbooks(WorkbookName).Activate
+Dim gilt As Double
+gilt = Range("G9").Value + Range("L9").Value + Range("Q9").Value _
++ Range("V9").Value + Range("AA9").Value + Range("AF9").Value _
++ Range("AK9").Value + Range("AP9").Value + Range("AU9").Value _
++ Range("AZ9").Value + Range("BE9").Value+ Range("BJ9").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("HNI_Product").Range(H_Gilt).Value = gilt
+ 
+'OtherDebtSch
+Workbooks(WorkbookName).Activate
+Dim ods As Double
+ods = Range("G13").Value + Range("L13").Value + Range("Q13").Value _
++ Range("V13").Value + Range("AA13").Value + Range("AF13").Value _
++ Range("AK13").Value + Range("AP13").Value + Range("AU13").Value _
++ Range("AZ13").Value + Range("BE13").Value+ Range("BJ13").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("HNI_Product").Range(H_OtherDebtSecurities).Value = ods
+ 
+'ELSS
+Workbooks(WorkbookName).Activate
+Dim elss As Double
+elss = Range("G16").Value + Range("L16").Value + Range("Q16").Value _
++ Range("V16").Value + Range("AA16").Value + Range("AF16").Value _
++ Range("AK16").Value + Range("AP16").Value + Range("AU16").Value _
++ Range("AZ16").Value + Range("BE16").Value+ Range("BJ16").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("HNI_Product").Range(H_ELSS).Value = elss
+ 
+ 
+'BalancedSch
+Workbooks(WorkbookName).Activate
+Dim bs As Double
+bs = Range("G20").Value + Range("L20").Value + Range("Q20").Value _
++ Range("V20").Value + Range("AA20").Value + Range("AF20").Value _
++ Range("AK20").Value + Range("AP20").Value + Range("AU20").Value _
++ Range("AZ20").Value + Range("BE20").Value+ Range("BJ20").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("HNI_Product").Range(H_BalancedScheme).Value = bs
+ 
+'GoldETF
+Workbooks(WorkbookName).Activate
+Dim getf As Double
+getf = Range("G22").Value + Range("L22").Value + Range("Q22").Value _
++ Range("V22").Value + Range("AA22").Value + Range("AF22").Value _
++ Range("AK22").Value + Range("AP22").Value + Range("AU22").Value _
++ Range("AZ22").Value + Range("BE22").Value+ Range("BJ22").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("HNI_Product").Range(H_GoldETF).Value = getf
+ 
+'OtETFs
+Workbooks(WorkbookName).Activate
+Dim oetf As Double
+oetf = Range("G23").Value + Range("L23").Value + Range("Q23").Value _
++ Range("V23").Value + Range("AA23").Value + Range("AF23").Value _
++ Range("AK23").Value + Range("AP23").Value + Range("AU23").Value _
++ Range("AZ23").Value + Range("BE23").Value+ Range("BJ23").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("HNI_Product").Range(H_OtherETFs).Value = oetf
+ 
+'FOFIO
+Workbooks(WorkbookName).Activate
+Dim fofio As Double
+fofio = Range("G26").Value + Range("L26").Value + Range("Q26").Value _
++ Range("V26").Value + Range("AA26").Value + Range("AF26").Value _
++ Range("AK26").Value + Range("AP26").Value + Range("AU26").Value _
++ Range("AZ26").Value + Range("BE26").Value+ Range("BJ26").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("HNI_Product").Range(H_FundOfFund).Value = fofio
+ 
+'Equity-others
+Workbooks(WorkbookName).Activate
+Dim eo As Double
+eo = Range("G17").Value + Range("L17").Value + Range("Q17").Value _
++ Range("V17").Value + Range("AA17").Value + Range("AF17").Value _
++ Range("AK17").Value + Range("AP17").Value + Range("AU17").Value _
++ Range("AZ17").Value + Range("BE17").Value+ Range("BJ17").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("HNI_Product").Range(H_Equity_Others).Value = eo
+ 
+'FMP
+Workbooks(WorkbookName).Activate
+Dim fmp As Double
+fmp = Range("G10").Value + Range("L10").Value + Range("Q10").Value _
++ Range("V10").Value + Range("AA10").Value + Range("AF10").Value _
++ Range("AK10").Value + Range("AP10").Value + Range("AU10").Value _
++ Range("AZ10").Value + Range("BE10").Value+ Range("BJ10").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("HNI_Product").Range(H_FMP).Value = fmp
+ 
+ 
+''''''HNI END''''''
+ 
+''''''RETAIL START''''''
+ 
+'Fill RET_Geo
+'T30
+Workbooks(WorkbookName).Activate
+Dim RGT As Double
+RGT = Range("C27").Value + Range("H27").Value + Range("W27").Value + Range("AB27").Value _
++ Range("AQ27").Value + Range("AV27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("RET_Geography").Range(R_T_RET_GEO).Value = RGT
+ 
+'B30
+Workbooks(WorkbookName).Activate
+Dim RGB As Double
+RGB = Range("M27").Value + Range("R27").Value + Range("AC27").Value _
++ Range("AL27").Value + Range("BA27").Value + Range("BF27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("RET_Geography").Range(R_B_RET_GEO).Value = RGB
+ 
+'Fill RET_Channel
+ 
+'TDP
+Workbooks(WorkbookName).Activate
+Dim rtdp As Double
+rtdp = Range("C27").Value + Range("H27").Value + Range("M27").Value _
++ Range("R27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("RET_Channel").Range(R_Through_Direct_Plan).Value = rtdp
+ 
+'TAD
+Workbooks(WorkbookName).Activate
+Dim rtap As Double
+rtap = Range("W27").Value + Range("AB27").Value + Range("AG27").Value _
++ Range("AL27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("RET_Channel").Range(R_Through_Associate_Distributors).Value = rtap
+ 
+'TNAD
+Workbooks(WorkbookName).Activate
+Dim rtnad As Double
+rtnad = Range("AQ27").Value + Range("AV27").Value + Range("BA27").Value _
++ Range("BF27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("RET_Channel").Range(R_Through_Non_Associate_Distributors).Value = rtnad
+ 
+'Fill RET_Product
+ 
+'L/MM
+Workbooks(WorkbookName).Activate
+Dim rlmm As Double
+rlmm = Range("C8").Value + Range("H8").Value + Range("M8").Value _
++ Range("R8").Value + Range("W8").Value + Range("AB8").Value _
++ Range("AG8").Value + Range("AL8").Value + Range("AQ8").Value _
++ Range("AV8").Value + Range("BA8").Value + Range("BF8").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("RET_Product").Range(R_Liquid_MM).Value = rlmm
+ 
+'Gilt
+Workbooks(WorkbookName).Activate
+Dim rgilt As Double
+rgilt = Range("C9").Value + Range("H9").Value + Range("M9").Value _
++ Range("R9").Value + Range("W9").Value + Range("AB9").Value _
++ Range("AG9").Value + Range("AL9").Value + Range("AQ9").Value _
++ Range("AV9").Value + Range("BA9").Value + Range("BF9").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("RET_Product").Range(R_Gilt).Value = rgilt
+ 
+'OtherDebtSch
+Workbooks(WorkbookName).Activate
+Dim rods As Double
+rods = Range("C13").Value + Range("H13").Value + Range("M13").Value _
++ Range("R13").Value + Range("W13").Value + Range("AB13").Value _
++ Range("AG13").Value + Range("AL13").Value + Range("AQ13").Value _
++ Range("AV13").Value + Range("BA13").Value+ Range("BF13").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("RET_Product").Range(R_OtherDebtSecurities).Value = rods
+ 
+'ELSS
+Workbooks(WorkbookName).Activate
+Dim relss As Double
+relss = Range("C16").Value + Range("H16").Value + Range("M16").Value _
++ Range("R16").Value + Range("W16").Value + Range("AB16").Value _
++ Range("AG16").Value + Range("AL16").Value + Range("AQ16").Value _
++ Range("AV16").Value + Range("BA16").Value+ Range("BF16").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("RET_Product").Range(R_ELSS).Value = relss
+ 
+'BalancedSch
+Workbooks(WorkbookName).Activate
+Dim rbs As Double
+rbs = Range("C20").Value + Range("H20").Value + Range("M20").Value _
++ Range("R20").Value + Range("W20").Value + Range("AB20").Value _
++ Range("AG20").Value + Range("AL20").Value + Range("AQ20").Value _
++ Range("AV20").Value + Range("BA20").Value+ Range("BF20").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("RET_Product").Range(R_BalancedScheme).Value = rbs
+ 
+'GoldETF
+Workbooks(WorkbookName).Activate
+Dim rgetf As Double
+rgetf = Range("C22").Value + Range("H22").Value + Range("M22").Value _
++ Range("R22").Value + Range("W22").Value + Range("AB22").Value _
++ Range("AG22").Value + Range("AL22").Value + Range("AQ22").Value _
++ Range("AV22").Value + Range("BA22").Value+ Range("BF22").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("RET_Product").Range(R_GoldETF).Value = rgetf
+ 
+'OtETFs
+Workbooks(WorkbookName).Activate
+Dim roetf As Double
+roetf = Range("C23").Value + Range("H23").Value + Range("M23").Value _
++ Range("R23").Value + Range("W23").Value + Range("AB23").Value _
++ Range("AG23").Value + Range("AL23").Value + Range("AQ23").Value _
++ Range("AV23").Value + Range("BA23").Value+ Range("BF23").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("RET_Product").Range(R_OtherETFs).Value = roetf
+ 
+'FOFIO
+Workbooks(WorkbookName).Activate
+Dim rfofio As Double
+rfofio = Range("C26").Value + Range("H26").Value + Range("M26").Value _
++ Range("R26").Value + Range("W26").Value + Range("AB26").Value _
++ Range("AG26").Value + Range("AL26").Value + Range("AQ26").Value _
++ Range("AV26").Value + Range("BA26").Value+ Range("BF26").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("RET_Product").Range(R_FundOfFund).Value = rfofio
+ 
+'Equity-others
+Workbooks(WorkbookName).Activate
+Dim reo As Double
+reo = Range("C17").Value + Range("H17").Value + Range("M17").Value _
++ Range("R17").Value + Range("W17").Value + Range("AB17").Value _
++ Range("AG17").Value + Range("AL17").Value + Range("AQ17").Value _
++ Range("AV17").Value + Range("BA17").Value+ Range("BF17").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("RET_Product").Range(R_Equity_Others).Value = reo
+ 
+'FMP
+Workbooks(WorkbookName).Activate
+Dim rfmp As Double
+rfmp = Range("C10").Value + Range("H10").Value + Range("M10").Value _
++ Range("R10").Value + Range("W10").Value + Range("AB10").Value _
++ Range("AG10").Value + Range("AL10").Value + Range("AQ10").Value _
++ Range("AV10").Value + Range("BA10").Value+ Range("BF10").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("RET_Product").Range(R_FMP).Value = rfmp
+
+
+
+''''''COR START''''''
+'Fill COR_Geo
+'T30
+Workbooks(WorkbookName).Activate
+Dim CGT As Double
+CGT = Range("D27").Value + Range("I27").Value + Range("X27").Value + Range("AC27").Value _
++ Range("AR27").Value + Range("AW27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("COR_Geography").Range(C_T_COR_GEO).Value = CGT
+ 
+'B30
+Workbooks(WorkbookName).Activate
+Dim CGB As Double
+CGB = Range("N27").Value + Range("S27").Value + Range("AH27").Value _
++ Range("AM27").Value + Range("BB27").Value + Range("BG27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("COR_Geography").Range(C_B_COR_GEO).Value = CGB
+ 
+'Fill COR_Channel
+ 
+'TDP
+Workbooks(WorkbookName).Activate
+Dim ctdp As Double
+ctdp = Range("D27").Value + Range("I27").Value + Range("N27").Value _
++ Range("S27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("COR_Channel").Range(C_Through_Direct_Plan).Value = ctdp
+ 
+'TAD
+Workbooks(WorkbookName).Activate
+Dim ctap As Double
+ctap = Range("X27").Value + Range("AC27").Value + Range("AH27").Value _
++ Range("AM27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("COR_Channel").Range(C_Through_Associate_Distributors).Value = ctap
+ 
+'TNAD
+Workbooks(WorkbookName).Activate
+Dim ctnad As Double
+ctnad = Range("AR27").Value + Range("AW27").Value + Range("BB27").Value _
++ Range("BG27").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("COR_Channel").Range(C_Through_Non_Associate_Distributors).Value = ctnad
+ 
+'Fill COR_Product
+ 
+'L/MM
+Workbooks(WorkbookName).Activate
+Dim clmm As Double
+clmm = Range("D8").Value + Range("I8").Value + Range("N8").Value _
++ Range("S8").Value + Range("X8").Value + Range("AC8").Value _
++ Range("AH8").Value + Range("AM8").Value + Range("AR8").Value _
++ Range("AW8").Value + Range("BB8").Value+ Range("BG8").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("COR_Product").Range(C_Liquid_MM).Value = clmm
+ 
+'Gilt
+Workbooks(WorkbookName).Activate
+Dim cgilt As Double
+cgilt = Range("D9").Value + Range("I9").Value + Range("N9").Value _
++ Range("S9").Value + Range("X9").Value + Range("AC9").Value _
++ Range("AH9").Value + Range("AM9").Value + Range("AR9").Value _
++ Range("AW9").Value + Range("BB9").Value+ Range("BG9").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("COR_Product").Range(C_Gilt).Value = cgilt
+ 
+'OtherDebtSch
+Workbooks(WorkbookName).Activate
+Dim cods As Double
+cods = Range("D13").Value + Range("I13").Value + Range("N13").Value _
++ Range("S13").Value + Range("X13").Value + Range("AC13").Value _
++ Range("AH13").Value + Range("AM13").Value + Range("AR13").Value _
++ Range("AW13").Value + Range("BB13").Value+ Range("BG13").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("COR_Product").Range(C_OtherDebtSecurities).Value = cods
+ 
+'ELSS
+Workbooks(WorkbookName).Activate
+Dim celss As Double
+celss = Range("D16").Value + Range("I16").Value + Range("N16").Value _
++ Range("S16").Value + Range("X16").Value + Range("AC16").Value _
++ Range("AH16").Value + Range("AM16").Value + Range("AR16").Value _
++ Range("AW16").Value + Range("BB16").Value+ Range("BG16").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("COR_Product").Range(C_ELSS).Value = celss
+ 
+ 
+'BalancedSch
+Workbooks(WorkbookName).Activate
+Dim cbs As Double
+cbs = Range("D20").Value + Range("I20").Value + Range("N20").Value _
++ Range("S20").Value + Range("X20").Value + Range("AC20").Value _
++ Range("AH20").Value + Range("AM20").Value + Range("AR20").Value _
++ Range("AW20").Value + Range("BB20").Value+ Range("BG20").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("COR_Product").Range(C_BalancedScheme).Value = cbs
+ 
+'GoldETF
+Workbooks(WorkbookName).Activate
+Dim cgetf As Double
+cgetf = Range("D22").Value + Range("I22").Value + Range("N22").Value _
++ Range("S22").Value + Range("X22").Value + Range("AC22").Value _
++ Range("AH22").Value + Range("AM22").Value + Range("AR22").Value _
++ Range("AW22").Value + Range("BB22").Value+ Range("BG22").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("COR_Product").Range(C_GoldETF).Value = cgetf
+ 
+'OtETFs
+Workbooks(WorkbookName).Activate
+Dim coetf As Double
+coetf = Range("D23").Value + Range("I23").Value + Range("N23").Value _
++ Range("S23").Value + Range("X23").Value + Range("AC23").Value _
++ Range("AH23").Value + Range("AM23").Value + Range("AR23").Value _
++ Range("AW23").Value + Range("BB23").Value+ Range("BG23").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("COR_Product").Range(C_OtherETFs).Value = coetf
+ 
+'FOFIO
+Workbooks(WorkbookName).Activate
+Dim cfofio As Double
+cfofio = Range("D26").Value + Range("I26").Value + Range("N26").Value _
++ Range("S26").Value + Range("X26").Value + Range("AC26").Value _
++ Range("AH26").Value + Range("AM26").Value + Range("AR26").Value _
++ Range("AW26").Value + Range("BB26").Value+ Range("BG26").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("COR_Product").Range(C_FundOfFund).Value = cfofio
+ 
+'Equity-others
+Workbooks(WorkbookName).Activate
+Dim ceo As Double
+ceo = Range("D17").Value + Range("I17").Value + Range("N17").Value _
++ Range("S17").Value + Range("X17").Value + Range("AC17").Value _
++ Range("AH17").Value + Range("AM17").Value + Range("AR17").Value _
++ Range("AW17").Value + Range("BB17").Value+ Range("BG17").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("COR_Product").Range(C_Equity_Others).Value = ceo
+ 
+'FMP
+Workbooks(WorkbookName).Activate
+Dim cfmp As Double
+cfmp = Range("D10").Value + Range("I10").Value + Range("N10").Value _
++ Range("S10").Value + Range("X10").Value + Range("AC10").Value _
++ Range("AH10").Value + Range("AM10").Value + Range("AR10").Value _
++ Range("AW10").Value + Range("BB10").Value+ Range("BG10").Value
+ 
+Workbooks(T_WorkbookName).Worksheets("COR_Product").Range(C_FMP).Value = cfmp
+ 
+ 
+''''''COR END''''''
+
+
+Workbooks(WorkbookName).Close
+''''''RETAIL END''''''
+End Sub
+
+
+
+
+
